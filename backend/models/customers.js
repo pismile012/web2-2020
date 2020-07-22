@@ -1,35 +1,29 @@
 const db = require("./db");
 const sequelize = require("sequelize");
 const Model = sequelize.Model;
-const CustomerTypes = require("./customer-types");
 const Accounts = require("./accounts");
+const Services = require("./services");
 
 class Customers extends Model{ }
 
 Customers.init({
-    fullName: {
-        type: sequelize.TEXT,
+    balance: {
+        type: sequelize.BIGINT,
         allowNull: false,
+        defaultValue: 0
     },
-    dOB: {
-        type: sequelize.DATEONLY,
-        allowNull: false
-    },
-    sex: {
-        type: sequelize.BOOLEAN,
-        allowNull: false
-    },
-    phone: {
-        type: sequelize.TEXT,
+    //Ngày đáo hạn(Ngày đóng)
+    maturity: {
+        type: sequelize.DATE,
         allowNull: true
     },
-    type: {
+    serviceType: {
         type: sequelize.INTEGER,
         allowNull: false,
         defaultValue: 1,
         references: {
             key: "id",
-            model: CustomerTypes
+            model: Services
         }
     },
     accountId: {

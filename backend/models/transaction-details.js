@@ -40,7 +40,7 @@ TransactionDetails.init({
     status: {
         type: sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 1,
         references: {
             key: "id",
             model: TransactionStatus

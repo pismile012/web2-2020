@@ -76,13 +76,32 @@ class App extends Component {
 
   componentDidMount(){
     this.storeCurrentUserCollector();
+    this.getSomething();
+  }
+
+  getSomething = () => {
+    const url = "http://localhost:8080/customers/signup/1593933313090/BDEA14";
+
+    fetch(url, {
+        method: "GET"
+    })
+    .then((response) => {
+        response.json()
+        .then((result) => {
+            console.log(result);
+        });
+    })
+    .catch((error) => {
+        console.log("Something went wrong when you fetch a customer: " + error);
+    });
+    console.log("GET SOMETHING");
   }
 
   render(){
     return (
       <div className="App">
         <HamburberButton />
-        <NavMenu />
+        <NavMenu fullName={this.state.fullName}/>
 
         <Router>
           <Switch>

@@ -13,8 +13,8 @@ export default class Intros extends Component {
                                 <div className="carousel-container">
                                 <div className="carousel-content">
                                     <h2>We keep money for you 😘</h2>
-                                    <p>The Largest Bank System In The World.</p>
-                                    <a href="#featured-services" className="btn-get-started scrollto">Get Started</a>
+                                    <p>The Largest Bank System In T he World.</p>
+                                    <a href="/home" className="btn-get-started scrollto">Get Started</a>
                                 </div>
                                 </div>
                             </div>
@@ -24,7 +24,7 @@ export default class Intros extends Component {
                                 <div className="carousel-content">
                                     <h2>We keep money for you 😘</h2>
                                     <p>The Largest Bank System In The World.</p>
-                                    <a href="#featured-services" className="btn-get-started scrollto">Get Started</a>
+                                    <a href="/home" className="btn-get-started scrollto">Get Started</a>
                                 </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@ export default class Intros extends Component {
                                 <div className="carousel-content">
                                     <h2>We keep money for you 😘</h2>
                                     <p>The Largest Bank System In The World.</p>
-                                    <a href="#featured-services" className="btn-get-started scrollto">Get Started</a>
+                                    <a href="/home" className="btn-get-started scrollto">Get Started</a>
                                 </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ export default class Intros extends Component {
                                 <div className="carousel-content">
                                     <h2>We keep money for you 😘</h2>
                                     <p>The Largest Bank System In The World.</p>
-                                    <a href="#featured-services" className="btn-get-started scrollto">Get Started</a>
+                                    <a href="/home" className="btn-get-started scrollto">Get Started</a>
                                 </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@ export default class Intros extends Component {
                                 <div className="carousel-content">
                                     <h2>We keep money for you 😘</h2>
                                     <p>The Largest Bank System In The World.</p>
-                                    <a href="#featured-services" className="btn-get-started scrollto">Get Started</a>
+                                    <a href="/home" className="btn-get-started scrollto">Get Started</a>
                                 </div>
                                 </div>
                             </div>

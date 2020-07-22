@@ -1,6 +1,7 @@
 const db = require("./db");
 const sequelize = require("sequelize");
-const BankBranches = require("./bank-branches");
+
+const AccountTypes = require("./account-types");
 const Model = sequelize.Model;
 
 class Accounts extends Model{ }
@@ -28,19 +29,19 @@ Accounts.init({
         type: sequelize.TEXT,
         allowNull: true
     },
+    accountType: {
+        type: sequelize.INTEGER,
+        defaultValue: 1,
+        allowNull: false,
+        references: {
+            key: "id",
+            model: AccountTypes
+        }
+    },
     isBlocked: {
         type: sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false
-    },
-    bankBranchId: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            key: "id",
-            model: BankBranches
-        },
-        defaultValue: 1
     }
 },{
     sequelize: db,

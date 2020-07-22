@@ -4,23 +4,13 @@ export default class NavMenu extends Component {
     constructor(props){
         super(props);
 
-        this.sender = {
-            fullName: null,
-            username: null,
-            password: null,
-            email: null,
-            bankBranchId: null,
-            dOB: null,
-            sex: null,
-            phone: null
-        }
-
         this.state = {
             fullName: "",
             id: null,
             login: false,
             token: null,
             store: null,
+
             status: "",
 
             username: null,
@@ -65,11 +55,12 @@ export default class NavMenu extends Component {
                     localStorage.setItem("login", JSON.stringify({
                         token: result.token,
                         login: true,
-                        currentUser: result.customerId
+                        currentUser: result.customerId,
                     }));
                     this.storeCollectorLogin();
                     window.location.reload();
                 }
+                alert(this.state.status);
             })
             .catch(console.log("ERROR"));
         })
@@ -92,6 +83,9 @@ export default class NavMenu extends Component {
         .then((response) => {
             response.json()
             .then((result) => {
+                this.setState({
+                    message: result.message
+                });
                 alert(result.message);
             })
             .catch((err) => {
@@ -111,60 +105,14 @@ export default class NavMenu extends Component {
             if(store && store.login){
                 this.setState({
                     store,
-                    login: true
+                    login: true,
+                    status: store.message
                 });
             }
         }catch(err){
             console.log("FAILED WHEN you use store collector login ");
         }
         
-    }
-
-    storeCollectorCustomer = () => {
-        console.log("STORE COLLECTOR!!!");
-        try{
-            const store = JSON.parse(localStorage.getItem("login"));
-            console.log(store);
-        
-            if(store && store.login){
-                this.setState({
-                    login: true,
-                    token: store.token,
-                    id: store.currentUser
-                });
-
-                const url = "https://s-ebanking-api.herokuapp.com/customers/" + store.currentUser;
-
-                fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": store.token
-                    }
-                })
-                .then((response) => {
-                    response.json()
-                    .then((result) => {
-                        console.log(result);
-
-                        this.setState({
-                            fullName: result.customer.fullName || "Guess"
-                        });
-                    });
-                })
-                .catch((error) => {
-                    console.log("Something went wrong when you fetch a customer: " + error);
-                });
-
-
-
-            }else{
-                console.log("FAILED");
-            }
-        }catch(error){
-            console.log("Something went wrong when you retrieve store from local storage!" + error);
-        }
-
-
     }
 
     logoutHandler = (e) => {
@@ -175,12 +123,9 @@ export default class NavMenu extends Component {
     componentDidMount(){
         console.log("COMPONENT DID MOUNT");
         this.storeCollectorLogin();
-        this.storeCollectorCustomer();
     }
 
     render() {
-        console.log(this.state.bankBranchId);
-        console.log(this.state.sex);
         return (
         
         <header id="header">
@@ -201,7 +146,7 @@ export default class NavMenu extends Component {
                         <li className="menu-has-children">
                             {
                                 this.state.login?
-                                <a href="/profile" style={{width: 'auto'}}>Hello, {this.state.fullName}</a>:
+                                <a href="/profile" style={{width: 'auto'}}>Hello, {this.props.fullName}</a>:
                                 <a href="#" onClick={() => document.getElementById('id01').style.display='block'} style={{width: 'auto'}}>Login</a>
                             }
                             <div id="id01" className="modal">

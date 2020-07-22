@@ -2,17 +2,24 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
-const Banks = require("./models/banks");
-const BankBranches = require("./models/bank-branches");
-const TransactionStatus = require("./models/transaction-status");
+const CurrencyUnits = require("./models/currency-unit");
+
+const AccountTypes = require("./models/account-types");
 const Accounts = require("./models/accounts");
-const StaffTypes = require("./models/staff-types");
-const CustomerTypes = require("./models/customer-types");
+
+const Services = require("./models/services");
 const Customers = require("./models/customers");
+
+const InformationUser = require("./models/information-user");
+
+const Decentralizations = require("./models/Decentralizations");
 const Staffs = require("./models/staffs");
 
+const TransactionStatus = require("./models/transaction-status");
 const Transactions = require("./models/transactions");
 const TransactionDetails = require("./models/transaction-details");
+
+
 
 const app = express();
 
@@ -44,12 +51,12 @@ app.use("/staffs", staffRoutes);
 
 app.get("/", async (req, res) => {
     await TransactionStatus.initialize();
-    await StaffTypes.initialize();
-    await CustomerTypes.initialize();
-    await Banks.initialize();
-    await BankBranches.initialize();
-    res.status(100).json({
-        status: "done"
+    await Decentralizations.initialize();
+    await Services.initialize();
+    await AccountTypes.initialize();
+    await CurrencyUnits.initialize();
+    res.send({
+        status: "Successfully Initialized Data!!"
     });
 });
 
@@ -69,5 +76,23 @@ app.use((error, req, res, next) => {
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-    console.log(`You are listening at port: ${port}`);
+    var test = null;
+    console.log(`${test} have type is ${typeof(test)} You are listening at port: ${port}`);
 });
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+ 

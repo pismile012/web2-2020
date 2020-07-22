@@ -6,14 +6,8 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../../middlewares/checkAuth");
+const Send = require("../../services/send-email");
 
-router.get("/", async (req, res) => {
-    const CustomerList = await Customers.findAll();
-    const headers = req.headers;
-    res.status(300).json({
-        listOfCustomers: CustomerList
-    });
-});
 
 router.post("/signup", async (req, res) => {
     const id = Date.now().toString();
@@ -22,8 +16,6 @@ router.post("/signup", async (req, res) => {
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, 10);
     const verifyToken = crypto.randomBytes(3).toString('hex').toUpperCase();
-    const bankId = req.body.bankId;
-    const bankBranchId = req.body.bankBranchId;
 
     const fullName = req.body.fullName;
     const dOB = req.body.dOB;
@@ -73,11 +65,20 @@ router.post("/signup", async (req, res) => {
                     error: err
                 });
             });
+
+            
         }
     })
     .catch((err) => {
         console.log("ERROR SIGNUP API: " + err);
     }); 
+
+    const tempUser = await Accounts.findOne({
+        where: {
+            username
+        }
+    });
+    await Send(tempUser);
 });
 
 router.post("/login", async (req, res) => {
@@ -88,11 +89,18 @@ router.post("/login", async (req, res) => {
 
     if(tempCustomer.length >= 1){
         const passwordAuth = await bcrypt.compare(password, tempCustomer[0].password);
+        const verifyToken = tempCustomer.verifyToken;
+        console.log(verifyToken);
         if(!passwordAuth){
             res.status(200).json({
                 message: "Wrong password!"
             });
-        }else{
+        }else if(passwordAuth && verifyToken !== null){
+            res.status(200).json({
+                message: "You haven't verified your account! Please check your email!!!"
+            });
+        }
+        else if(passwordAuth && verifyToken === null){
             const token = jwt.sign({
                 username: tempCustomer[0].username,
                 password: tempCustomer[0].password
@@ -105,6 +113,11 @@ router.post("/login", async (req, res) => {
                 message: "Successfully authenticated!",
                 token,
                 customerId: tempCustomer[0].id
+            });
+        }else{
+            res.status(200).json({
+                message: "Something went wrong!!!",
+                customer: null
             });
         }
     }else{
@@ -197,6 +210,29 @@ router.delete("/:id", async (req, res) => {
             message: "Something went wrong when you delete a customer: " + id
         });
     });
+});
+
+router.get("/signup/:id/:verifyToken", async (req, res) => {
+    const id = req.params.id;
+    const verifyToken = req.params.verifyToken;
+    console.log(id);
+    console.log(verifyToken);
+
+    const temp = await Accounts.findByPk(id);
+    console.log("TEMP");
+    console.log(temp);
+
+    if(temp.verifyToken === verifyToken){
+        temp.verifyToken = "";
+        await temp.save();
+        res.status(200).json({
+            message: "Successfully verified your account!"
+        });
+    }else{
+        res.status(403).json({
+            message: "Failed verified your account!"
+        });
+    }
 });
 
 module.exports = router;
