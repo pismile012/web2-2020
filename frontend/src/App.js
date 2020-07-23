@@ -9,6 +9,7 @@ import Intros from "./components/Intros";
 
 import Verify from "./components/Staff/Verify";
 import NotFound from "./components/NotFound";
+import StaffManager from "./components/Staff/StaffManager";
 
 class App extends Component {
   constructor(props) {
@@ -119,6 +120,9 @@ class App extends Component {
           </Route>
           <Route path="/verify">
             <Verify />
+          </Route>
+          <Route path="/staffmanager">
+            <StaffManager />
           </Route>
           <Route component={NotFound} />
         </Switch>
